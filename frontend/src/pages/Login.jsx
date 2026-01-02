@@ -16,7 +16,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://e-bus-management-system-ey48.onrender.com/api/auth/login",
         { email, password }
       );
 

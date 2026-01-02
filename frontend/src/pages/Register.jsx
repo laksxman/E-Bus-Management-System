@@ -13,7 +13,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("https://e-bus-management-system-ey48.onrender.com/api/auth/register", {
         name,
         email,
         password

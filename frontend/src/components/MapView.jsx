@@ -8,7 +8,7 @@ const containerStyle = {
 
 export default function MapView({ lat, lng }) {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBpu3gJg5E4yjPyyC3dLghzTVYUkpKT2PY"
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   });
 
   if (!isLoaded) return <p>Loading Map...</p>;

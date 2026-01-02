@@ -26,7 +26,6 @@ export default function UserDashboard() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [buses, setBuses] = useState(demoBuses);
-  const [selectedBus, setSelectedBus] = useState(null);
   const [msg, setMsg] = useState("");
 
   const searchBus = () => {
@@ -39,11 +38,9 @@ export default function UserDashboard() {
     if (filtered.length === 0) {
       setMsg("❌ Bus not available on this particular route");
       setBuses([]);
-      setSelectedBus(null);
     } else {
       setMsg("");
       setBuses(filtered);
-      setSelectedBus(filtered[0]);
     }
   };
 
@@ -51,7 +48,7 @@ export default function UserDashboard() {
     <Layout>
       <div style={container}>
         <h2>User Dashboard 🚍</h2>
-        <p style={{ color: "#555" }}>Search, view & book buses easily</p>
+        <p style={subText}>Search, view & book buses easily</p>
 
         {/* SEARCH BOX */}
         <div style={searchBox}>
@@ -68,7 +65,7 @@ export default function UserDashboard() {
             onChange={(e) => setTo(e.target.value)}
           />
           <button style={button} onClick={searchBus}>
-            🔍 Search
+            🔍 Search Bus
           </button>
         </div>
 
@@ -77,21 +74,19 @@ export default function UserDashboard() {
         {/* BUS CARDS */}
         <div style={grid}>
           {buses.map(bus => (
-            <BusCard
-              key={bus._id}
-              bus={bus}
-              onSelect={() => setSelectedBus(bus)}
-            />
+            <BusCard key={bus._id} bus={bus} />
           ))}
         </div>
 
-        {/* MAP */}
-        {selectedBus && (
-          <div style={mapBox}>
-            <h3>Live Bus Location 🗺</h3>
+        {/* MAP (FIRST BUS LOCATION) */}
+        {buses.length > 0 && buses[0]?.latitude && (
+          <div style={mapCard}>
+            <h3 style={{ marginBottom: "12px", color: "#003366" }}>
+              Live Bus Location 🗺
+            </h3>
             <MapView
-              lat={selectedBus.latitude}
-              lng={selectedBus.longitude}
+              lat={buses[0].latitude}
+              lng={buses[0].longitude}
             />
           </div>
         )}
@@ -108,14 +103,19 @@ const container = {
   padding: "30px 20px"
 };
 
+const subText = {
+  color: "#555",
+  marginBottom: "15px"
+};
+
 const searchBox = {
   display: "flex",
   gap: "12px",
   flexWrap: "wrap",
   background: "#fff",
-  padding: "15px",
-  borderRadius: "10px",
-  boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+  padding: "18px",
+  borderRadius: "12px",
+  boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
   margin: "25px 0"
 };
 
@@ -129,28 +129,27 @@ const input = {
 };
 
 const button = {
-  padding: "12px 22px",
+  padding: "12px 24px",
   background: "#003366",
-  color: "white",
+  color: "#fff",
   border: "none",
   borderRadius: "6px",
   cursor: "pointer",
   fontSize: "15px"
 };
 
-/* ✅ RESPONSIVE GRID */
 const grid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
   gap: "20px"
 };
 
-const mapBox = {
-  marginTop: "35px",
-  padding: "20px",
-  background: "#fff",
-  borderRadius: "12px",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.1)"
+const mapCard = {
+  marginTop: "40px",
+  padding: "22px",
+  background: "linear-gradient(135deg, #ffffff, #f4f8ff)",
+  borderRadius: "14px",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.12)"
 };
 
 const error = {

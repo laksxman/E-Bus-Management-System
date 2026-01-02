@@ -1,0 +1,8 @@
+/* Optional global styles, leave mostly empty if using inline */
+a {
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}

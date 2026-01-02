@@ -21,9 +21,9 @@ export default function DriverDashboard() {
         longitude: lng
       });
 
-      setMsg("✅ Location updated successfully");
+      setMsg(" Location updated successfully");
     } catch (err) {
-      setError("❌ Failed to update location");
+      setError(" Failed to update location");
     }
   };
 

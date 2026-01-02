@@ -23,10 +23,10 @@ export default function AdminDashboard() {
       setError("");
       setMsg("");
       await API.post("/admin/create-driver", driver);
-      setMsg("✅ Driver created successfully");
+      setMsg(" Driver created successfully");
       setDriver({ name: "", email: "", password: "" });
     } catch (err) {
-      setError("❌ Failed to create driver");
+      setError(" Failed to create driver");
     }
   };
 

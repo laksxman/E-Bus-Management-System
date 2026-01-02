@@ -20,17 +20,17 @@ const Login = () => {
         { email, password }
       );
 
-      // 🔐 Save auth
+      //  Save auth
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
 
-      // ❌ Role mismatch protection
+      //  Role mismatch protection
       if (res.data.role !== role) {
         setMsg(`You are not authorized as ${role}`);
         return;
       }
 
-      // ✅ Role-based redirect
+      //  Role-based redirect
       if (role === "admin") {
         navigate("/admin-dashboard");
       } else if (role === "driver") {

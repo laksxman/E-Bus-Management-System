@@ -1,10 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function BusCard({ bus, onSelect }) {
-  const [booked, setBooked] = useState(false);
+export default function BusCard({
+  bus,
+  booked: bookedProp = false,
+  selected = false,          // 🎯 NEW
+  onBook,
+  onSelect                  // 🧭 NEW
+}) {
+  const [booked, setBooked] = useState(bookedProp);
+
+  /* ===== SYNC WITH PARENT BOOKED STATE ===== */
+  useEffect(() => {
+    setBooked(bookedProp);
+  }, [bookedProp]);
+
+  const handleBook = (e) => {
+    e.stopPropagation();
+
+    if (!booked) {
+      setBooked(true);
+      if (onBook) onBook(bus); // parent notify
+    }
+  };
+
+  const handleSelect = () => {
+    if (onSelect) onSelect(bus); // 🎯 parent ko selected bus
+  };
 
   return (
-    <div style={card} onClick={onSelect}>
+    <div
+      style={{
+        ...card,
+        border: selected ? "2px solid #2ecc71" : "2px solid transparent",
+        transform: selected ? "scale(1.03)" : "scale(1)"
+      }}
+      onClick={handleSelect}
+    >
       {/* BUS HEADER */}
       <div style={header}>
         <h3 style={busNo}>{bus.busNumber}</h3>
@@ -28,13 +59,11 @@ export default function BusCard({ bus, onSelect }) {
 
       {/* ACTION */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setBooked(true);
-        }}
+        onClick={handleBook}
         style={{
           ...button,
-          background: booked ? "#27ae60" : "#003366"
+          background: booked ? "#27ae60" : "#003366",
+          cursor: booked ? "not-allowed" : "pointer"
         }}
         disabled={booked}
       >
@@ -44,7 +73,7 @@ export default function BusCard({ bus, onSelect }) {
   );
 }
 
-/* ================= STYLES ================= */
+/* ================= STYLES (UNCHANGED) ================= */
 
 const card = {
   background: "#fff",
@@ -55,7 +84,7 @@ const card = {
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
-  transition: "all 0.3s ease",
+  transition: "all 0.3s ease"
 };
 
 const header = {
@@ -94,6 +123,5 @@ const button = {
   borderRadius: "8px",
   fontSize: "15px",
   fontWeight: "bold",
-  cursor: "pointer",
   transition: "background 0.3s ease"
 };
